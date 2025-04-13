@@ -4,9 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>spring study 001</title>
 </head>
 <body>
-
+	<div id="container">
+		<div id="menuAdmin">
+			<h2 class="menuAdminH2">공지사항</h2>
+			<div id="menuList"></div>
+		</div>
+	</div>
 </body>
 </html>
