@@ -7,11 +7,17 @@
 <title>spring study 001</title>
 </head>
 <body>
+
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
+
 	<div id="container">
 		<div id="menuAdmin">
 			<h2 class="menuAdminH2">공지사항</h2>
 			<div id="menuList"></div>
 		</div>
 	</div>
+	
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
 </body>
 </html>
