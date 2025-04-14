@@ -10,4 +10,13 @@ public class PageController {
 		return "index";
 	}
 	
+	@GetMapping("/register")
+	public String registerPage() {
+		return "register/index";
+	}
+	
+	@GetMapping("/loginPage")
+	public String loginPage() {
+		return "login/index";
+	}
 }

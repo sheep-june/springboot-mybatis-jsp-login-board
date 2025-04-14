@@ -12,7 +12,7 @@
 
 <div id="header">
 	<div style="color:white;text-align:left;float:left;cursor:pointer">
-	CanesblackCafe
+	日本語勉強ページ
 	</div>
 </div>
 
