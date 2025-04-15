@@ -12,7 +12,7 @@
 
 <div id="header">
 	<div style="color:white;text-align:left;float:left;cursor:pointer">
-	日本語勉強ページ
+	Spring_Project_Text_日本語のページ
 	</div>
 </div>
 

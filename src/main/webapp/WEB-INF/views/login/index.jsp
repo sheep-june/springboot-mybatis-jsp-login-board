@@ -5,25 +5,27 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인 페이지</title>
+<link rel="stylesheet" type="text/css"  href="${pageContext.request.contextPath}/resources/css/login/style.css">
+
 </head>
 <body>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div id="login-container-wrapper">
 		<div id="login-container">
-			<h2>로그인</h2>	
+			<h2>ログイン</h2>	
 			<form action="${pageContext.request.contextPath/login}/login" method="post">
 			<div class="input-group">
-				<label for="username">아이디</label>
+				<label for="username">ユーザーID</label>
 				<input type="text" id="username" name="username" required/>
 			</div>
 			<div class="input-group">
-				<label for="password">비밀번호</label>
+				<label for="password">パスワード</label>
 				<input type="password" id="password" name="password" required/>
 			</div>
-				<button type="submit" id="login-button">로그인</button>
+				<button type="submit" id="login-button">ログイン</button>
 			</form>	
 			<div id="register-link">
-				<a href="${pageContext.request.contextPath}/register">회원가입</a> }
+				<a href="${pageContext.request.contextPath}/register">新規登録</a> 
 			</div>
 		</div>
 	</div>
