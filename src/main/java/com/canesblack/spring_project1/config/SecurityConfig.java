@@ -1,9 +1,7 @@
 package com.canesblack.spring_project1.config;
-
 import java.io.IOException;
+
 import java.util.Arrays;
-
-
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,94 +19,93 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 
-
-
 import jakarta.servlet.DispatcherType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
-
-
-
-
-
 @Configuration
 @EnableWebSecurity
+//SpringSecurity기능을 사용할려면 이 어노테이션을 써줘야
 public class SecurityConfig {
+
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
-		//스피링 시큐리티 기능을 사용하고자 할대 이 메소드 안에 작성한다 암기
-		
-		//scrf해킹 보호조치 
-		http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-		
-		//cors는 특정 서버로만 데이터를 넘길 수 있도록 설정할 수 있음
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+		//스프링시큐리티 기능을 사용하고자 할때 이 메소드안에 작성한다.
+		http
+		.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+		//csrf해킹기법으로부터 보호조치를 코드방법, => 나중에 따로 HTML,jsp과자바스크립트에다가 csrf보호토큰도 넣어놓을것
 		.cors(cors -> cors.configurationSource(corsCorsfigurationSource()))
-		
-		
-		//세션 설정
-		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-		
-		.authorizeHttpRequests(authz->authz.requestMatchers("/","/loginPage","/logout","/noticeCheckPage","/register","/menu/all")
-			.permitAll()
-			.requestMatchers(HttpMethod.POST,"/login").permitAll()
-			.requestMatchers("/resources/**","/WEB-INF/**").permitAll()
-			.requestMatchers("/noticerAdd","noticeModifyPage").hasAnyAuthority("ADMIN","MANAGER")
-			.requestMatchers(HttpMethod.POST, "/menu/add").hasAnyAuthority("ADMIN", "MANAGER")
-		    .requestMatchers(HttpMethod.POST, "/menu/update").hasAnyAuthority("ADMIN", "MANAGER")
-		    .requestMatchers(HttpMethod.DELETE, "/menu/delete").hasAnyAuthority("ADMIN", "MANAGER")
-		    .anyRequest().authenticated()
-		)
-		
-		
+		//cors는 특정서버로만 데이터를 넘길수 있도록 설정할수있습니다.
+		.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+		//세션설정
+		.authorizeHttpRequests(authz -> authz
+		        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE,DispatcherType.ERROR,DispatcherType.REQUEST).permitAll()
+                .requestMatchers("/", "/WEB-INF/views/**").permitAll()
+			    .requestMatchers("/", "/loginPage", "/logout", "/noticeCheckPage", "/registerPage", "/menu/all").permitAll()
+			    .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
+			    .requestMatchers("/resources/**", "/WEB-INF/**").permitAll()
+			    .requestMatchers("/noticeAddPage", "/noticeModifyPage").hasAnyAuthority("ADMIN", "MANAGER")
+			    .requestMatchers(HttpMethod.POST, "/menu/add").hasAnyAuthority("ADMIN", "MANAGER")
+			    .requestMatchers(HttpMethod.POST, "/menu/update").hasAnyAuthority("ADMIN", "MANAGER")
+			    .requestMatchers(HttpMethod.DELETE, "/menu/delete").hasAnyAuthority("ADMIN", "MANAGER")
+			    .anyRequest().authenticated()
+			)
 		
 		.formLogin(
-			login->login.loginPage("/loginPage")//url작성해서 로그인 페이지로 이동할때 
-			.loginProcessingUrl("/login")
-			.failureUrl("/loginPage?error=true")
-			.usernameParameter("username")
-			.passwordParameter("password")
-			.successHandler(authenticationSuccessHandlr())
-			.permitAll()
-		)
+				//url을 작성해서 로그인페이지로 이동할때
+				login->login.loginPage("/loginPage") 
+				.loginProcessingUrl("/login")
+				.failureUrl("/loginPage?error=true")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.successHandler(authenticationSuccessHandler())
+				.permitAll()
+				)
 		.logout(logout->logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))// /logout URL을 통해서 로그아웃이 진행됨
 				.logoutSuccessUrl("/")//로그아웃성공후 이 url로 리다이렉팅
 				.invalidateHttpSession(true)//세션무효화=> 세션공간안에 있던 데이터가 사라짐
 				.deleteCookies("JSESSIONID")//쿠키삭제
 				.permitAll()//위 기능을 수행시켤려면 이 메서드 실행
-		);
-		
+				);
 		return http.build();
-	}
+		//최종 http에 적용시킬때 사용하는 메소드입니다.
+	};
 	
 	@Bean
-	public AuthenticationSuccessHandler authenticationSuccessHandlr() {
+	public AuthenticationSuccessHandler authenticationSuccessHandler() {
 		return new SimpleUrlAuthenticationSuccessHandler() {
 			@Override
 			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 					Authentication authentication) throws IOException, ServletException {
-				//로그인 성공 했을때 특별한 기능 넣고싶을때 ex 권한 세션 
-				HttpSession session = request.getSession();//세션 기능을 가지고 
-				boolean isManager = authentication.getAuthorities().stream().anyMatch(grantedAuthoirity -> 
-					grantedAuthoirity.getAuthority().equals("ADMIN")||
-					grantedAuthoirity.getAuthority().equals("MANAGER"));
+				//로그인이 성공했을떄 우리가 특별기능을 넣고 싶을떄(세션,권한기능)
+				HttpSession session = request.getSession();//세션 기능을 가지고 온것
+				boolean isManager = authentication.getAuthorities().stream()
+						.anyMatch(grantedAuthoirity -> 
+						grantedAuthoirity.getAuthority().equals("ADMIN") || 
+						grantedAuthoirity.getAuthority().equals("MANAGER"));
 				if(isManager) {
 					session.setAttribute("MANAGER", true);
 				}
 				session.setAttribute("username", authentication.getName());
-				session.setAttribute("isAuthenticatied", true);
+				//세션에다가 로그인한 아이디를 저장한다.
+				session.setAttribute("isAuthenticated", true);
+				//세션에다가 로그인됬냐 여부를 저장
 				//request.getContextPath()=>localhost:8080
 				response.sendRedirect(request.getContextPath()+"/");
-				
-				
 				super.onAuthenticationSuccess(request, response, authentication);
 			}
 		};
 	}
+	//비밀번호 암호화
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	
 	
 	@Bean
 	public org.springframework.web.cors.CorsConfigurationSource corsCorsfigurationSource() {
@@ -122,13 +119,4 @@ public class SecurityConfig {
 		return source;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

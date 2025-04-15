@@ -14,6 +14,8 @@
 		<div id="login-container">
 			<h2>ログイン</h2>	
 			<form action="${pageContext.request.contextPath/login}/login" method="post">
+				<input type="hidden" name="_csrf" value="${_csrf.token}">
+				
 			<div class="input-group">
 				<label for="username">ユーザーID</label>
 				<input type="text" id="username" name="username" required/>
@@ -25,7 +27,7 @@
 				<button type="submit" id="login-button">ログイン</button>
 			</form>	
 			<div id="register-link">
-				<a href="${pageContext.request.contextPath}/register">新規登録</a> 
+				<a href="${pageContext.request.contextPath}/registerPage">新規登録</a> 
 			</div>
 		</div>
 	</div>
