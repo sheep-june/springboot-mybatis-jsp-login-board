@@ -12,8 +12,14 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div id="login-container-wrapper">
 		<div id="login-container">
-			<h2>ログイン</h2>	
-			<form action="${pageContext.request.contextPath/login}/login" method="post">
+			<h2>ログイン</h2>
+			
+			<!-- 로그인 실패시 오류 메시지 표시 -->
+			<c:if test="${not empty param.error}">
+				<p style="color:red;">入力されたIDまたはパスワードが正しくありません。</p>
+			</c:if>
+				
+			<form action="${pageContext.request.contextPath}/login" method="post">
 				<input type="hidden" name="_csrf" value="${_csrf.token}">
 				
 			<div class="input-group">
