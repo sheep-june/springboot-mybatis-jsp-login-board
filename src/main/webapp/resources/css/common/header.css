@@ -1,16 +1,18 @@
 @charset "UTF-8";
 
-*{
-	margin:0;
-	padding:0;
+/* 전체 요소 초기화: 브라우저마다 기본 여백과 패딩을 제거 */
+* {
+	margin: 0;
+	padding: 0;
 }
 
-#header{
-	height:30px;
-	background-color:#333;
-	color:white;
-	padding:20px;
-	text-align:center;
-	font-size:24px;
-	font-weight:bold;
+/* 헤더 영역 스타일 */
+#header {
+	height: 30px; /* 요소의 높이 지정 (실제 높이는 padding 포함 더 커짐) */
+	background-color: #333; /* 배경색: 어두운 회색 */
+	color: white; /* 글자색: 흰색 */
+	padding: 20px; /* 내부 여백 */
+	text-align: center; /* 텍스트 가운데 정렬 */
+	font-size: 24px; /* 글자 크기 */
+	font-weight: bold; /* 글자 굵게 */
 }

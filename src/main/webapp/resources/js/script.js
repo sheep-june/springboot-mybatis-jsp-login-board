@@ -1,60 +1,67 @@
-//DOM 객체 연결(html혹은jsp파일안에 있는 태그들,
-//	즉 객체들을 자바스크립트와 연결시키는과정!)
+// DOM 객체 연결 (JSP 또는 HTML 내부 태그를 JS에서 제어할 수 있도록 참조)
 const container = document.getElementById("container");
 const menuAdmin = document.getElementById("menuAdmin");
 const menuList = document.getElementById("menuList");
 
-
-//CSRF 토큰과 헤더이름 가져오기
+// Spring Security용 CSRF 토큰과 헤더 이름을 meta 태그에서 추출
 const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute('content');
 const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute('content');
 
-
-//데이터를 조회할떄 사용할 기능을 정의해야합니다.
-function fetchMenus(){
-	fetch("/menu/all").then(response => response.json())
+// 게시글 목록을 서버에서 조회하고 화면에 렌더링하는 함수 (GET 요청)
+function fetchMenus() {
+	fetch("/menu/all") // REST API GET 요청
+	.then(response => response.json()) // JSON 응답 파싱
 	.then(menus => {
-		menuList.innerHTML = '';//기존메뉴목록을 초기화
-		menus.forEach(menu =>{
-			//각 메뉴 아이템을 생성해서 리스트에 추가
-			console.log(menu.writer);
+		menuList.innerHTML = ''; // 기존 목록 초기화
+
+		menus.forEach(menu => {
+			console.log(menu.writer); // 디버깅용 로그
+
+			// 개별 게시글 HTML 요소 생성
 			const menuItem = document.createElement('div');
-			menuItem.className='menu-item';
-			menuItem.innerHTML=`
-			<a href="#" class="menu-link" style="text-decoration:none;color:black;">
-				<h3>${menu.title}</h3>
-				<p>${menu.content}</p>
-				<small>작성자:${menu.writer},작성일:${menu.indate},조회수:${menu.count}</small>
-			</a>
-			<br/>
-			<br/>
-				`
-			//게시글을 메인페이지에서 하나씩 클릭할때	
-				menuItem.querySelector(".menu-link").addEventListener('click',(event)=>{
-					event.preventDefault();
-					console.log(`event:${event}`);
-					
-					incrementCount(menu.idx).then(()=>window.location.href=`/noticeCheckPage?idx=${menu.idx}`)
+			menuItem.className = 'menu-item';
+			menuItem.innerHTML = `
+				<a href="#" class="menu-link" style="text-decoration:none;color:black;">
+					<h3>${menu.title}</h3>
+					<p>${menu.content}</p>
+					<small>작성자:${menu.writer},작성일:${menu.indate},조회수:${menu.count}</small>
+				</a>
+				<br/>
+				<br/>
+			`;
+
+			// 게시글 클릭 시 조회수 증가 후 상세 페이지로 이동
+			menuItem.querySelector(".menu-link").addEventListener('click', (event) => {
+				event.preventDefault(); // 링크 기본 동작 중지
+				console.log(`event:${event}`);
+
+				// 조회수 증가 → 완료 후 상세 페이지로 이동
+				incrementCount(menu.idx).then(() => {
+					window.location.href = `/noticeCheckPage?idx=${menu.idx}`;
 				});
-				menuList.appendChild(menuItem);
-		})
-	})
+			});
+
+			// 생성된 항목을 목록에 추가
+			menuList.appendChild(menuItem);
+		});
+	});
 }
 
-function incrementCount(idx){
-	return fetch(`/menu/count/${idx}`,{
+// 특정 게시글의 조회수를 증가시키는 요청 (PUT 방식)
+function incrementCount(idx) {
+	return fetch(`/menu/count/${idx}`, {
 		method: 'PUT',
-		headers:{
-			[csrfHeader]:csrfToken
+		headers: {
+			[csrfHeader]: csrfToken // CSRF 헤더 포함
 		}
-	}).then(response=>{
-		if(!response.ok){
-			console.log('데이터가 프론트서버에서 백엔드서버 잘 안넘어감');
+	}).then(response => {
+		if (!response.ok) {
+			console.log('데이터가 프론트서버에서 백엔드서버로 잘 안넘어감');
 		}
-	}).catch(error=>{
+	}).catch(error => {
 		console.log(`Error: ${error}`);
-	})
+	});
 }
 
-//메인페이지가 열리면 자동 실행됨
-window.addEventListener('load',fetchMenus);
+// 페이지가 로드되면 fetchMenus 실행하여 게시글 목록 표시
+window.addEventListener('load', fetchMenus);

@@ -1,44 +1,56 @@
+// build.gradle (Groovy DSL) 설정 파일
+// 스프링부트, JSP, MyBatis, Security, Swagger 등 전체 프로젝트 기술 스택 정의
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.4.4'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'java' // Java 프로젝트임을 명시
+	id 'org.springframework.boot' version '3.4.4' // 스프링부트 플러그인
+	id 'io.spring.dependency-management' version '1.1.7' // 의존성 버전 자동 관리
 }
 
 group = 'com.canesblack'
 version = '0.0.1-SNAPSHOT'
 
+// Java 버전 17 명시 (toolchain 방식으로 설정)
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
 
+// 의존성 중앙 저장소 (Maven Central) 사용
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	// Swagger 의존성 (springdoc-openapi)
+	// Swagger 문서 자동 생성 (springdoc-openapi)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
-implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+	// JSP 관련 설정: JSP와 JSTL 처리
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
 
-implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
-implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
-implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
-implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+	// 스프링부트 기본 웹 + 톰캣 내장 서버
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.springframework.boot:spring-boot-starter-security' // 인증/인가
+	implementation 'org.springframework.boot:spring-boot-starter-web' // REST API
 
-implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-implementation 'org.springframework.boot:spring-boot-starter-security'
-implementation 'org.springframework.boot:spring-boot-starter-web'
-implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	// MyBatis ORM 연동
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 
-runtimeOnly 'com.mysql:mysql-connector-j'
+	// MySQL 드라이버 (JDBC 연결용, 실행환경에서 필요)
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
-testImplementation 'org.springframework.boot:spring-boot-starter-test'
-testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
-testImplementation 'org.springframework.security:spring-security-test'
-testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 테스트 관련 의존성
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+
+// 정적 리소스 위치 설정: JSP + static 리소스를 모두 찾게 설정
 sourceSets {
 	main {
 		resources {
@@ -47,6 +59,7 @@ sourceSets {
 	}
 }
 
+// 테스트 플랫폼 설정 (JUnit 5)
 tasks.named('test') {
 	useJUnitPlatform()
 }

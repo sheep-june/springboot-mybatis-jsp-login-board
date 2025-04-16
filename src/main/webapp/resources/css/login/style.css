@@ -1,80 +1,90 @@
-
-*{
-	margin:0;
-	padding:0;
+/* 기본 여백 제거 및 초기화 */
+* {
+	margin: 0;
+	padding: 0;
 }
 
-#login-container-wrapper{
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	height:90vh;
+/* 전체 로그인 폼을 가운데 정렬하고 화면 높이에 맞춤 */
+#login-container-wrapper {
+	display: flex; /* flexbox 레이아웃 사용 */
+	align-items: center; /* 수직 중앙 정렬 */
+	justify-content: center; /* 수평 중앙 정렬 */
+	height: 90vh; /* 뷰포트 높이의 90% 차지 */
 }
 
-#login-container{
-	background-color:white;
-	padding:40px;
-	border-radius:10px;
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-	width: 300px;
-	text-align:center;
+/* 로그인 박스 스타일 */
+#login-container {
+	background-color: white; /* 배경 흰색 */
+	padding: 40px; /* 내부 여백 */
+	border-radius: 10px; /* 모서리 둥글게 */
+	box-shadow: 0 0 10px rgba(0,0,0,0.5); /* 그림자 효과 */
+	width: 300px; /* 고정 너비 */
+	text-align: center; /* 내용 가운데 정렬 */
 }
 
-h2{
-	margin-bottom:20px;
-	font-size:24px;
-	color:#333;
+/* 제목 스타일 */
+h2 {
+	margin-bottom: 20px;
+	font-size: 24px;
+	color: #333;
 }
 
-.input-group{
-	margin-bottom:15px;
-	text-align:left;
+/* 입력 그룹 간격 및 정렬 */
+.input-group {
+	margin-bottom: 15px;
+	text-align: left;
 }
 
-.input-group label{
-	display:block;
-	font-size:14px;
-	margin-bottom:5px;
-	color:#333;
+/* 라벨 스타일 */
+.input-group label {
+	display: block;
+	font-size: 14px;
+	margin-bottom: 5px;
+	color: #333;
 }
 
-.input-group input{
-	width:100%;
+/* 입력 필드 스타일 */
+.input-group input {
+	width: 100%;
 	padding: 10px;
-	font-size:14px;
-	border:1px solid #ddd;
-	border-radius:5px;
-	box-sizing:border-box;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	box-sizing: border-box; /* padding 포함한 너비 계산 */
 }
 
-#login-button{
-	width:100%;
-	padding:10px;
-	background-color:#333;
-	color:white;
-	border:none;
-	border-radius:5px;
-	font-size:16px;
+/* 로그인 버튼 스타일 */
+#login-button {
+	width: 100%;
+	padding: 10px;
+	background-color: #333;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-size: 16px;
 	cursor: pointer;
-	margin-top:20px;
+	margin-top: 20px;
 }
 
-#login-button:hover{
-	background-color:#555;
+/* 로그인 버튼 호버 효과 */
+#login-button:hover {
+	background-color: #555;
 }
 
-#register-link{
-	margin-top:20px;
+/* 회원가입 링크 위치 */
+#register-link {
+	margin-top: 20px;
 }
 
+/* 회원가입 링크 스타일 */
 #register-link a {
-	color:#333;
-	text-decoration:none;
-	font-size:14px;
+	color: #333;
+	text-decoration: none;
+	font-size: 14px;
 }
 
+/* 입력 필드 포커스 효과 */
 .input-group input:focus {
-    outline: none;
-    border: 2px solid #3399ff;
+	outline: none;
+	border: 2px solid #3399ff; /* 포커스 시 테두리 색 강조 */
 }
-
