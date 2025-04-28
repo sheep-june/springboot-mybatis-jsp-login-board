@@ -1,3 +1,75 @@
+# Spring Study 001 - 会員登録および掲示板ウェブアプリケーション
+
+## 概要
+本プロジェクトは、Spring Boot、Spring Security、MyBatis、JSPをベースに作成されたウェブアプリケーションです。  
+基本的な会員登録、ログイン、お知らせ掲示板のCRUD機能を提供し、RBAC（Role-Based Access Control）方式の権限システムを適用しています。
+
+## 主な機能
+- 会員登録（BCryptによるパスワード暗号化）
+- ログインおよびログアウト（Spring Securityセッション認証）
+- お知らせ掲示板
+  - 投稿の作成、編集、削除、閲覧機能
+  - 管理者/マネージャー権限によるアクセス制御
+- REST API（掲示板CRUD用）
+- Swagger（OpenAPI）ドキュメント連携（APIテスト用）
+- CSRF（Cross-Site Request Forgery）対策適用
+- CORS（Cross-Origin Resource Sharing）ポリシー設定
+
+## 使用技術スタック
+- **バックエンド**
+  - Java 17
+  - Spring Boot 3
+  - Spring Security
+  - Spring MVC
+  - MyBatis
+- **フロントエンド**
+  - JSP + JSTL
+  - HTML5, CSS3, JavaScript
+- **データベース**
+  - MySQL
+- **その他**
+  - Swagger（springdoc-openapi-ui）
+
+## プロジェクト構成
+project  
+├── config  
+│   ├── SecurityConfig.java（セキュリティ設定）  
+│   └── SwaggerConfig.java（Swagger設定）  
+├── controller  
+│   ├── MenuRestController.java（REST API - 掲示板）  
+│   ├── PageController.java（ページレンダリング）  
+│   └── UserController.java（会員登録処理）  
+├── entity  
+│   ├── CustomUser.java  
+│   ├── Menu.java  
+│   ├── Role.java  
+│   └── User.java  
+├── mapper  
+│   ├── MenuRestMapper.java  
+│   └── UserMapper.java  
+├── service  
+│   ├── MenuRestService.java  
+│   └── UserService.java  
+└── SpringProject1Application.java（メイン実行ファイル）
+
+- `resources/static/css`, `resources/static/js`：各ページ用のフロントエンドリソース
+- `resources/templates` または `/WEB-INF/views/`：JSPファイル
+- `application.properties`：データベース接続設定
+
+## 実行方法
+1. MySQLデータベースを作成し、テーブルを準備
+2. `application.properties`にDB接続情報を設定
+3. プロジェクトを実行（`SpringProject1Application`）
+4. ブラウザでアクセス
+   - http://localhost:8080/
+   - （Swagger UI: http://localhost:8080/swagger-ui/index.html）
+
+## 注意事項
+- POST、PUT、DELETEリクエストを送信する際には、必ずCSRFトークンを一緒に送信してください。
+- 管理者（Admin）またはマネージャー（Manager）権限を持つアカウントのみ、投稿の編集・削除が可能です。
+
+
+
 # Spring Study 001 - 회원가입 및 게시판 웹 애플리케이션
 
 ## 개요
@@ -31,7 +103,26 @@
   - Swagger (springdoc-openapi-ui)
 
 ## 프로젝트 구조
-
+project
+├── config
+│ ├── SecurityConfig.java (보안 설정)
+│ └── SwaggerConfig.java (Swagger 설정)
+├── controller
+│ ├── MenuRestController.java (REST API - 게시판)
+│ ├── PageController.java (페이지 렌더링)
+│ └── UserController.java (회원가입 처리)
+├── entity
+│ ├── CustomUser.java
+│ ├── Menu.java
+│ ├── Role.java
+│ └── User.java
+├── mapper
+│ ├── MenuRestMapper.java
+│ └── UserMapper.java
+├── service
+│ ├── MenuRestService.java
+│ └── UserService.java
+└── SpringProject1Application.java (메인 실행 파일)
 
 
 - `resources/static/css`, `resources/static/js` : 페이지별 프론트엔드 리소스
