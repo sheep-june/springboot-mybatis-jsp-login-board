@@ -56,14 +56,6 @@ project
 - `resources/templates` または `/WEB-INF/views/`：JSPファイル
 - `application.properties`：データベース接続設定
 
-## 実行方法
-1. MySQLデータベースを作成し、テーブルを準備
-2. `application.properties`にDB接続情報を設定
-3. プロジェクトを実行（`SpringProject1Application`）
-4. ブラウザでアクセス
-   - http://localhost:8080/
-   - （Swagger UI: http://localhost:8080/swagger-ui/index.html）
-
 ## 注意事項
 - POST、PUT、DELETEリクエストを送信する際には、必ずCSRFトークンを一緒に送信してください。
 - 管理者（Admin）またはマネージャー（Manager）権限を持つアカウントのみ、投稿の編集・削除が可能です。
@@ -129,13 +121,6 @@ project<br>
 - `resources/templates` 또는 `/WEB-INF/views/` : JSP 파일
 - `application.properties` : 데이터베이스 연결 및 설정
 
-## 실행 방법
-1. MySQL 데이터베이스 생성 및 테이블 준비
-2. `application.properties`에 DB 연결 정보 설정
-3. 프로젝트 실행 (`SpringProject1Application`)
-4. 브라우저 접속
-   - http://localhost:8080/
-   - (Swagger UI: http://localhost:8080/swagger-ui/index.html)
 
 ## 참고
 - CSRF 보호를 위해 모든 POST, PUT, DELETE 요청 시 CSRF 토큰을 함께 전송해야 합니다.
