@@ -104,25 +104,25 @@ project
 
 ## 프로젝트 구조
 project<br>
-├── config
-│ ├── SecurityConfig.java (보안 설정)
-│ └── SwaggerConfig.java (Swagger 설정)
-├── controller
-│ ├── MenuRestController.java (REST API - 게시판)
-│ ├── PageController.java (페이지 렌더링)
-│ └── UserController.java (회원가입 처리)
-├── entity
-│ ├── CustomUser.java
-│ ├── Menu.java
-│ ├── Role.java
-│ └── User.java
-├── mapper
-│ ├── MenuRestMapper.java
-│ └── UserMapper.java
-├── service
-│ ├── MenuRestService.java
-│ └── UserService.java
-└── SpringProject1Application.java (메인 실행 파일)
+├── config<br>
+│ ├── SecurityConfig.java (보안 설정)<br>
+│ └── SwaggerConfig.java (Swagger 설정)<br>
+├── controller<br>
+│ ├── MenuRestController.java (REST API - 게시판)<br>
+│ ├── PageController.java (페이지 렌더링)<br>
+│ └── UserController.java (회원가입 처리)<br>
+├── entity<br>
+│ ├── CustomUser.java<br>
+│ ├── Menu.java<br>
+│ ├── Role.java<br>
+│ └── User.java<br>
+├── mapper<br>
+│ ├── MenuRestMapper.java<br>
+│ └── UserMapper.java<br>
+├── service<br>
+│ ├── MenuRestService.java<br>
+│ └── UserService.java<br>
+└── SpringProject1Application.java (메인 실행 파일)<br>
 
 
 - `resources/static/css`, `resources/static/js` : 페이지별 프론트엔드 리소스
