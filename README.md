@@ -103,7 +103,7 @@ project
   - Swagger (springdoc-openapi-ui)
 
 ## 프로젝트 구조
-project
+project<br>
 ├── config
 │ ├── SecurityConfig.java (보안 설정)
 │ └── SwaggerConfig.java (Swagger 설정)
